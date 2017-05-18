@@ -1,9 +1,10 @@
 /*
+
  * client.cpp
  *
  *  Created on: 2017年3月10日
  *      Author: Administrator
- */
+
 #include<iostream>
 #include"linear_list/SeqList.h"
 //#include"linear_list/SeqList.cpp"
@@ -47,3 +48,4 @@ int main(){
 
 
 
+*/

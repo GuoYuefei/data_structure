@@ -1,4 +1,4 @@
-
+//所有的线性表都要实现这个接口（抽象类）
 
 #ifndef LINEARLIST_H_
 #define LINEARLIST_H_
