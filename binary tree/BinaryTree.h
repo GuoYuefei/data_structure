@@ -33,7 +33,7 @@ class ConsolePrint:public PrintNode{
 
 };*/
 
-//begin 树结点类
+//begin 树结点类，可作为基类重写printData，多态
 class Node{
 public:
 	int data;
@@ -52,8 +52,6 @@ public:
 	virtual void printData(){
 		cout << this->data << " ";
 	};
-
-
 };
 //end
 
@@ -63,6 +61,15 @@ private:
 //	int length;			//长度
 //	int deep;			//深度
 //	Node* Next=root->left;					//下次追加元素的位置
+	//用于后续遍历
+	class Infom{
+	public:
+		bool flag;			//记录该节点有木有遍历过右子节点
+		Node* p;
+		Infom(Node* nd):flag(false),p(nd){
+		}
+		virtual ~Infom(){}
+	};
 	void preorder(Node* p){
 		if(p==NULL){
 			return;
@@ -108,6 +115,10 @@ public:
 	void inorder_traversal();				//中序遍历
 	void subsequent_traversal();			//后续遍历
 	void level_traversal();					//层次遍历
+
+	void preorder_stack();					//前序遍历，非递归实现
+	void inorder_stack();					//中序遍历，使用堆栈实现
+	void subsequent_stack();				//后续遍历，非递归实现
 
 
 
