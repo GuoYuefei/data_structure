@@ -7,12 +7,6 @@
 
 #include "Cost.h"
 
-Cost::Cost() {
-	// TODO Auto-generated constructor stub
 
-}
 
-Cost::~Cost() {
-	// TODO Auto-generated destructor stub
-}
 

@@ -8,11 +8,16 @@
 #ifndef COST_H_
 #define COST_H_
 
+
+/**
+ * 路径花费顶层类
+ */
 class Cost {
 private:
 	int cost;
 public:
-	virtual Cost():cost(-1){};
+	Cost():cost(-1){};
+	Cost(int cost):cost(cost){};
 	virtual ~Cost(){};
 	virtual int getCost(){
 		return cost;

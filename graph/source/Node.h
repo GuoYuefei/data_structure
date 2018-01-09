@@ -9,6 +9,7 @@
 #define NODE_H_
 #include "Edge.h"
 #include <vector>
+//#include "Graph.h"
 
 using namespace std;
 /**
@@ -17,15 +18,47 @@ using namespace std;
  */
 class Node {
 private:
-	const int id;						//node的唯一识别符号，我这使用int编号。
+	int id;				//node's unqiue id
 	int iterEdge;
 protected:
-	vector<Edge> adjEdges;			//每个node都有一个临边数组,子类可以访问该属性
+	vector<Edge> adjEdges;		//every node have an array that formed by all adjacent edges
 public:
-	//没有默认构造、复制构造，必须使用该构造
-	Node(int id):id(id),iterEdge(0){};
-	virtual ~Node(){};
+	/**
+	 * no default constructor
+	 * user must use this constructor
+	 */
+	Node(int id):id(id),iterEdge(0){
+		adjEdges.clear();
+	};
 
+	/**
+	 * copy constructor
+	 */
+	Node(const Node& node):id(node.getId()),iterEdge(0){
+		this->adjEdges = node.getadjEdges();
+	}
+
+//	Node():id(++(Graph::maxId)),iterEdge(0){};
+
+	/**
+	 * destructor
+	 */
+	virtual ~Node();
+
+	/**
+	 * we think if two nodes have same id,they is equal
+	 */
+	bool operator==(const Node& that) const{
+		return this->id == that.id;
+	}
+
+
+
+	/*******************************Base Operate***************************************/
+
+	/**
+	 * get the node's unique id
+	 */
 	int getId() const{
 		return id;
 	}
@@ -36,6 +69,8 @@ public:
 	vector<Edge> getadjEdges() const{
 		return adjEdges;
 	};
+
+
 
 	/**
 	 * there are three functions to deal the iterEdge,
@@ -55,48 +90,44 @@ public:
 
 
 
-
-
-	/****************************not inline******************************************/
-
 	/**
 	 * add an edge to this node.adjEdge
 	 * if the edge didn't add this node ,return false to let user know
 	 */
-	bool addEdge(Edge e);
+	bool addEdge(Edge& e);
 
 	/**
 	 * provide two parameters which are Int and those two parameters can define an Edge
 	 * then this function calls the function which is declared 'bool addEdge(Edge e);'
 	 */
-	bool addEdge(int a,int b);
+	bool addEdge(int a,Cost& cost);
 
 	/**
 	 * remove an edge from this node.adjEdge
 	 * if there is not have the edge,the function will return false
 	 */
-	bool removeEdge(Edge e);
+	bool removeEdge(Edge& e);
 
 	/**
-	 * provide two parameters which are Int and those two parameters can define an Edge
-	 * then this function calls the function which is declared 'bool addEdge(Edge e)'
+	 * provide one parameter which is Int and that parameter can define an Edge
+	 * then this function calls the function which is declared 'bool removeEdge(Edge e)'
 	 */
-	bool removeEdge(int a,int b);
+	bool removeEdge(int a);
 
 	/**
-	 * get Node what current iterEdge point to
+	 * get Node'id what current iterEdge point to
+	 * the Node should been found in the graph,its class Graph's responsibility
 	 */
-	Node thisNeighbor(){
+	int firstNeighbor(){
 		return adjEdges[iterEdge].getNextNode();
 	}
 
 	/**
-	 * get Node what next iterEdge point to and the iterEdge will plus 1
+	 * get Node's what next iterEdge point to and the iterEdge will plus 1
 	 */
-	Node nextNeighbor(){
+	int nextNeighbor(){
 		return adjEdges[++iterEdge].getNextNode();
 	}
-
 
 };
 

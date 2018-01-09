@@ -7,12 +7,46 @@
 
 #include "Graph.h"
 
-Graph::Graph() {
-	// TODO Auto-generated constructor stub
+int Graph::maxId = 0;
+
+
+Graph::Graph(){
+}
+
+Graph::Graph(const vector<Node>& nodes){
+	this->nodes = nodes;					//发生的是一个个node不断赋值过程
+}
+
+Graph::Graph(const Graph& g){
+	this->nodes = g.nodes;
+}
+
+Graph::~Graph(){
 
 }
 
-Graph::~Graph() {
-	// TODO Auto-generated destructor stub
+bool Graph::existNode(Node node){
+	for(unsigned int i=0;i<nodes.size();i++){
+		if(nodes[i]==node){
+			return true;
+		}
+	}
+	return false;
 }
+
+bool Graph::existNode(int a){
+	Node node = *new Node(a);
+	return existNode(node);
+}
+
+bool Graph::existEdge(Node a,Node b){
+
+}
+
+
+
+
+
+
+
 
