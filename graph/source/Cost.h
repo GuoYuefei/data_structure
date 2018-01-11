@@ -14,12 +14,16 @@
  */
 class Cost {
 private:
-	int cost;
+	unsigned int cost;
 public:
 	Cost():cost(-1){};
-	Cost(int cost):cost(cost){};
+	Cost(unsigned int cost):cost(cost){};
+	/**
+	 * copy constructor
+	 */
+	Cost(const Cost& cost):cost(cost.getCost()){};
 	virtual ~Cost(){};
-	virtual int getCost(){
+	virtual unsigned int getCost() const{
 		return cost;
 	}
 	virtual void setCost(int cost){

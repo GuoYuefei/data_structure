@@ -8,6 +8,7 @@
 
 #ifndef EDGE_H_
 #define EDGE_H_
+#define uint unsigned int
 //不能让Edge类依赖Node类，不然会出现循环依赖
 //#include "Node.h"
 #include "Cost.h"
@@ -15,13 +16,16 @@
 class Edge {
 
 private:
-	int nextNode;					//下一个结点的id
+	uint nextNode;					//下一个结点的id
 	Cost cost;
 
 public:
-	Edge():nextNode(-1),cost(-1){};
-	Edge(int nodeId,Cost cost):nextNode(nodeId),cost(cost){}
-	Edge(int nodeId):nextNode(nodeId),cost(-1){};
+	Edge():nextNode(NONE),cost(NONE){};
+	Edge(uint nodeId,Cost cost):nextNode(nodeId),cost(cost){}
+	Edge(uint nodeId):nextNode(nodeId),cost(NONE){};
+	Edge(const Edge& e):nextNode(e.getNextNode()),cost(e.getCost()){
+
+	}
 	virtual ~Edge(){};
 
 	/**
@@ -36,16 +40,16 @@ public:
 	/**
 	 * all get and set functions
 	 */
-	virtual Cost getCost(){
+	virtual Cost getCost() const{
 		return cost;
 	}
 	virtual void setCost(Cost cost){
 		this->cost = cost;
 	}
-	virtual int getNextNode(){
+	virtual uint getNextNode() const{
 		return nextNode;
 	}
-	virtual void setNextNode(int nextNode){
+	virtual void setNextNode(uint nextNode){
 		this->nextNode = nextNode;
 	}
 //	virtual void setNextNode(int id){
