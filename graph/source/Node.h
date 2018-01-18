@@ -7,7 +7,7 @@
 
 #ifndef NODE_H_
 #define NODE_H_
-#define NONE (-1)
+
 
 #include "Edge.h"
 #include <vector>

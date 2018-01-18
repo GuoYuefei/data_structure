@@ -96,6 +96,7 @@ public:
 
 	/**
 	 * 不给给引用，对graph的所有可能不安全操作必须通过接口完成
+	 * 这是一个危险的函数，将来得思考要不要留着
 	 */
 	vector<Node>& getNodes(){
 		return nodes;
@@ -216,22 +217,24 @@ public:
 	/**
 	 * can set edge's cost
 	 */
-	bool setEdgeCose(Edge e,Cost cost);
+	bool setEdgeCose(uint id1,Edge e);
+
+	bool setEdgeCose(Node node1,Edge e);
 
 	/**
 	 * a and b can define an edge
 	 * then set edge's cost
 	 */
-	bool setEdgeCost(Node a,Node b,Cost cost);
+	bool setEdgeCost(Node node1,Node node2,Cost cost);
 
 	/**
 	 * a and b can define two nodes
 	 * the two nodes can define an edge
 	 * then set the edge's cost
 	 */
-	bool setEdgeCost(uint a,uint b,Cost cost);
+	bool setEdgeCost(uint id1,uint id2,Cost cost);
 
-
+/**************************************************************************************************/
 
 	/**
 	 * return the node which the node' iterEdge point to
@@ -241,7 +244,7 @@ public:
 	/**
 	 * return the node'id which the node'iterEdge point to
 	 */
-	int firstNeighborId(Node node);
+	uint firstNeighborId(Node node);
 
 	/**
 	 * return the node which the iterEdge point to that in the node whose id is id
@@ -251,7 +254,7 @@ public:
 	/**
 	 * return the node's id which the iterEdge point to that in the node whose id is id
 	 */
-	int firstNeighborId(uint id);
+	uint firstNeighborId(uint id);
 
 
 
@@ -265,7 +268,7 @@ public:
 	 * iterEdge ++
 	 * return the node'id which the node'iterEdge point to
 	 */
-	int nextNeighborId(Node node);
+	uint nextNeighborId(Node node);
 
 	/**
 	 * iterEdge ++
@@ -277,7 +280,7 @@ public:
 	 * iterEdge ++
 	 * return the node's id which the iterEdge point to that in the node whose id is id
 	 */
-	int nextNeighborId(uint id);
+	uint nextNeighborId(uint id);
 
 
 

@@ -213,22 +213,54 @@ Cost Graph::getEdgeCost(Node node1,Edge e){
 	return getEdgeCost(id1,id2);
 }
 
+//记得要改变两个顶点中的内容
+bool Graph::setEdgeCost(uint id1,uint id2,Cost cost){
+	if(existEdge(id1,id2)){
+		uint id1pos = nodePos(id1);
+		uint id2pos = nodePos(id2);
+		nodes[id1pos].setEdgeCost(id2,cost);
+		nodes[id2pos].setEdgeCost(id1,cost);
+		return true;
+	}else{
+		return false;
+	}
+}
 
+uint Graph::firstNeighborId(uint id){
+	return getNode(id).firstNeighbor();
+}
 
+/**
+ * that is not sure ,may be change
+ */
+uint Graph::firstNeighborId(Node node){
+	return node.firstNeighbor();
+}
 
+Node Graph::firstNeighbor(uint id){
+	return getNode(firstNeighborId(id));
+}
 
+Node Graph::firstNeighbor(Node node){
+	return getNode(firstNeighborId(node));
+}
 
+uint Graph::nextNeighborId(uint id){
+	return getNode(id).nextNeighbor();				//++iter，得到下一个firstNeighbor
+}
 
+uint Graph::nextNeighborId(Node node){
+	return node.nextNeighbor();						//与前面的first函数一样直接用了提供的node
+													//之前写得大多数函数多是只要取node中的id信息
+}
 
+Node Graph::nextNeighbor(uint id){
+	return getNode(nextNeighborId(id));
+}
 
-
-
-
-
-
-
-
-
+Node Graph::nextNeighbor(Node node){
+	return getNode(nextNeighborId(node));
+}
 
 
 

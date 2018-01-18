@@ -12,6 +12,7 @@
 //不能让Edge类依赖Node类，不然会出现循环依赖
 //#include "Node.h"
 #include "Cost.h"
+#define NONE (-1)
 
 class Edge {
 
