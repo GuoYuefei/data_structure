@@ -1,19 +1,18 @@
 /*
  * Node.cpp
  *
- *  Created on: 2018年1月8日
+ *  Created on: 2018锟斤拷1锟斤拷8锟斤拷
  *      Author: Administrator
  */
 #include "Node.h"
 
 
 Node::~Node(){
-	delete &adjEdges;
+//	delete &adjEdges;
 }
 
-//在graph中调用时还应检查e是否合法，e中出现的结点图中是否已经存在
 bool Node::addEdge(Edge e){
-	for(unsigned int i=0;i<adjEdges.size();i++){		//先要判定有无此邻边，有则不添加，返回false
+	for(unsigned int i=0;i<adjEdges.size();i++){
 		if(adjEdges[i]==e){
 			return false;
 		}
@@ -28,17 +27,17 @@ bool Node::addEdge(unsigned int a,Cost cost){
 }
 
 bool Node::removeEdge(const Edge& e){
-	for(unsigned int i=0;i<adjEdges.size();i++){		//先要判定有无此邻边，有则删除，返回true
+	for(unsigned int i=0;i<adjEdges.size();i++){
 		if(adjEdges[i]==e){
 			adjEdges.erase(adjEdges.begin()+i);
 			return true;
 		}
 	}
-	return false;						//未发现此边，返回false
+	return false;
 }
 
 bool Node::removeEdge(unsigned int id){
-	Edge e = Edge(id);				//此时cost虽然会初始化默认，但是接下来的==运算符并不会比较cost
+	Edge e = Edge(id);
 	return removeEdge(e);
 }
 

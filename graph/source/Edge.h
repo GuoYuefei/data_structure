@@ -1,15 +1,15 @@
 /*
  * Edge.h
- * ×÷ÎªÎÞÏòÍ¼µÄ±ßµÄ½Ó¿Ú
+ * ï¿½ï¿½Îªï¿½ï¿½ï¿½ï¿½Í¼ï¿½Ä±ßµÄ½Ó¿ï¿½
  *
- *  Created on: 2018Äê1ÔÂ8ÈÕ
+ *  Created on: 2018å¹´1æœˆ8æ—¥
  *      Author: Administrator
  */
 
 #ifndef EDGE_H_
 #define EDGE_H_
 #define uint unsigned int
-//²»ÄÜÈÃEdgeÀàÒÀÀµNodeÀà£¬²»È»»á³öÏÖÑ­»·ÒÀÀµ
+//ä¸èƒ½è®©Edgeç±»ä¾èµ–Nodeç±»ï¼Œä¸ç„¶ä¼šå‡ºçŽ°å¾ªçŽ¯ä¾èµ–
 //#include "Node.h"
 #include "Cost.h"
 #define NONE (-1)
@@ -17,7 +17,7 @@
 class Edge {
 
 private:
-	uint nextNode;					//ÏÂÒ»¸ö½áµãµÄid
+	uint nextNode;
 	Cost cost;
 
 public:
@@ -30,11 +30,19 @@ public:
 	virtual ~Edge(){};
 
 	/**
-	 * µ±nextNodeÏàµÈ¾ÍÈÏÎªÏàµÈÁË£¬ÆäÊµ»¹ÓÐÒ»¸öÌõ¼þ£¬ÐèÒªÔÚÍ¬Ò»¸önodeÖÐ±È½Ï
-	 * edge»¹ÓÐÒ»¸öÒþ²ØµÄ½áµã¾ÍÊÇÄÇ¸önode
+	 * åªè¦è®¤ä¸ºnextNodeæ˜¯ç›¸ç­‰ï¼Œé‚£å°±è®¤ä¸ºè¾¹ç›¸ç­‰
 	 */
 	bool operator==(const Edge& that) const{
 		return this->nextNode == that.nextNode;
+	}
+
+	Edge& operator=(const Edge& e){
+		//check for self assignment
+		if(this!=&e){
+			this->cost = e.getCost();
+			this->nextNode=e.getNextNode();
+		}
+		return *this;				//return self whatever changed
 	}
 
 
@@ -53,10 +61,7 @@ public:
 	virtual void setNextNode(uint nextNode){
 		this->nextNode = nextNode;
 	}
-//	virtual void setNextNode(int id){
-////		this->nextNode = new Node(id);   ÕâÑùµÄÐ´·¨Ã÷ÏÔ´íÎó£¬Ó¦¸ÃÍ¨¹ýidÈ¥ÕÒNodeµÄ¼¯ºÏ±ß¼¯
-//										//¹Ê±¾º¯ÊýÓ¦¸ÃÐ´ÔÚNodeÖÐ£¬¶øÇÒ¿ÉÒÔ²»Ð´£¬¾ÍÊÇÕÒ±ß¼ÓsetµÄ¹ý³Ì×é³É
-//	}
+
 
 };
 

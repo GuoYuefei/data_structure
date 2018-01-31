@@ -1,7 +1,7 @@
 /*
  * Node.h
  *
- *  Created on: 2018Äê1ÔÂ8ÈÕ
+ *  Created on: 2018ï¿½ï¿½1ï¿½ï¿½8ï¿½ï¿½
  *      Author: Administrator
  */
 
@@ -14,10 +14,8 @@
 //#include "Graph.h"
 
 using namespace std;
-/**
- * ¿ÉÒÔ×÷Îª»ùÀàÊ¹ÓÃ
- * ÔÚhÖĞÖ±½ÓĞ´µÄ¶¼ÊÇinlineº¯Êı£¬Ğ¡º¯Êı¿ÉÒÔÓÃinlineÔö¼ÓÔËĞĞËÙ¶È
- */
+
+
 class Node {
 private:
 	unsigned int id;				//node's unqiue id
@@ -39,7 +37,7 @@ public:
 	Node(const Node& node):id(node.getId()),iterEdge(0){
 		vector<Edge> ve= node.getadjEdges();
 		for(uint i=0;i<ve.size();i++){
-			this->adjEdges[i] = ve[i];
+			this->adjEdges.push_back(ve[i]);
 		}
 	}
 
@@ -80,7 +78,7 @@ public:
 	}
 
 	/**
-	 * ½ö¼ì²éeµÄnextNodeÊôĞÔ£¬cost²»¹Ü
+	 * ï¿½ï¿½ï¿½ï¿½ï¿½eï¿½ï¿½nextNodeï¿½ï¿½ï¿½Ô£ï¿½costï¿½ï¿½ï¿½ï¿½
 	 */
 	bool existEdge(Edge e){
 		return existEdge(e.getNextNode());
@@ -96,8 +94,7 @@ public:
 	}
 
 	/**
-	 * get the private attribute
-	 * ¸ø²»¸øÒıÓÃÊÇ¸öÎÊÌâ£¬¸øÁËÒıÓÃuserÁé»î£¬µ«ÊÇ²»°²È«£¬ÔİÇÒ²»¸øÒıÓÃ
+	 * get the private copy attribute
 	 */
 	virtual vector<Edge> getadjEdges() const{
 		return adjEdges;
@@ -105,9 +102,7 @@ public:
 
 
 	/**
-	 * ¸ù¾İnextNodeIdµÄÖµÕÒµ½Õâ¸ö¶¥µãµÄÁÚ½Ó±ß£¬²¢·µ»Ø¸Ã±ßµÄÒ»¸ö¸±±¾
-	 * ÔÚÊ¹ÓÃÕâ¸öº¯ÊıÇ°¿ÉÒÔÏÈÓÃexistEdgeº¯Êı¼ì²âÊÇ·ñ´æÔÚ¸Ã±ß
-	 * Èô²»´æÔÚ»á·µ»ØÒ»¸öEdge£¨NONE£©µÄ¶ÔÏó
+	 * é€šè¿‡nextidæ¥å¾—åˆ°è¾¹ï¼Œè‹¥ä¸å­˜åœ¨å°±è¿”å›Edgeï¼ˆ-1ï¼‰çš„è¾¹
 	 */
 	virtual Edge getByNextId(uint nextNodeId){
 		for(uint i=0;i<adjEdges.size();i++){
@@ -115,7 +110,7 @@ public:
 				return adjEdges[i];
 			}
 		}
-		return NONE;			//ÆäÊµ»á·µ»ØEdge£¨NONE£©Õâ¸ö¶ÔÏó
+		return NONE;			//è‡ªåŠ¨è°ƒç”¨å‡½æ•°Edge(NONE)
 	}
 
 	/**
@@ -165,14 +160,14 @@ public:
 	virtual bool removeEdge(unsigned int id);
 
 	/**
-	 * Èç¹ûnodeÖĞÓĞÕâ¸ö±ß£¬µ«ÊÇ±ßµÄ»¨·Ñ²»Í¬£¬ÄÇÃ´¾ÍÌæ»»ÕâÌõ±ß£¬Èç¹ûÃ»ÓĞÔòÌí¼ÓÕâÌõe±ß
-	 * ÕâÀïĞÎ²Î²»ÓÃÒıÓÃ£¬ÕâÑù¾Í¿ÉÒÔÈÃÏÂÃæµÄº¯ÊıÊµÏÖÊ±Ö±½Óµ÷ÓÃ
+	 * ï¿½ï¿½ï¿½nodeï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ß£ï¿½ï¿½ï¿½ï¿½Ç±ßµÄ»ï¿½ï¿½Ñ²ï¿½Í¬ï¿½ï¿½ï¿½ï¿½Ã´ï¿½ï¿½ï¿½æ»»ï¿½ï¿½ï¿½ï¿½ï¿½ß£ï¿½ï¿½ï¿½ï¿½Ã»ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½eï¿½ï¿½
+	 * ï¿½ï¿½ï¿½ï¿½ï¿½Î²Î²ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½Ã£ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½Í¿ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½Äºï¿½ï¿½ï¿½Êµï¿½ï¿½Ê±Ö±ï¿½Óµï¿½ï¿½ï¿½
 	 */
 	virtual void setEdgeCost(Edge e);
 
 	/**
-	 * aÊÇnextNodeµÄÖµ£¬ºÍcostÒ»Æğ¶¨ÒåÁËÒ»Ìõ±ß£¬
-	 * ÕâÌõ±ßÈç¹û´æÔÚ¾Í¸²¸ÇËü£¬Èç¹û²»´æÔÚ¾ÍÌí¼ÓËü
+	 * aï¿½ï¿½nextNodeï¿½ï¿½Öµï¿½ï¿½ï¿½ï¿½costÒ»ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½Ò»ï¿½ï¿½ï¿½ß£ï¿½
+	 * ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½Ú¾Í¸ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½Ú¾ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½
 	 */
 	virtual void setEdgeCost(unsigned int a,Cost& cost);
 

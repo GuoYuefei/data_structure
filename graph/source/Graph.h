@@ -1,7 +1,7 @@
 /*
  * Graph.h
  *
- *  Created on: 2018Äê1ÔÂ8ÈÕ
+ *  Created on: 2018å¹´1æœˆ8æ—¥
  *      Author: Administrator
  */
 
@@ -12,12 +12,13 @@
 #include "Cost.h"
 #include <vector>
 #include "./exceptions/NoMatchId.h"
+#include <set>
+#include <queue>
+#include <stack>
 
 
-/**
- * ÎŞÏòÍ¼
- * ¸ÃÍ¼Éè¼ÆÖ®´¦£¬Ö»ÓĞÒ»¸öË½ÓĞµÄ¶¥µã¼¯£¬µ«ÊÇNodeÖĞº¬ÓĞÆäËû±äÁ¿ºÍ·½·¨¿ÉÒÔ·ÃÎÊ¸÷×ÔµÄ±ß¼¯
- */
+
+
 class Graph {
 private:
 	uint iterNode;
@@ -90,13 +91,11 @@ public:
 
 	/**
 	 * get the Node reference which is matching the id
-	 * ÕâÀïµÄnode·â×°ºÃÁË£¬¹Ì¿ÉÒÔ±©Â¶ÒıÓÃ
 	 */
 	Node getNode(unsigned int id) const;
 
 	/**
-	 * ²»¸ø¸øÒıÓÃ£¬¶ÔgraphµÄËùÓĞ¿ÉÄÜ²»°²È«²Ù×÷±ØĞëÍ¨¹ı½Ó¿ÚÍê³É
-	 * ÕâÊÇÒ»¸öÎ£ÏÕµÄº¯Êı£¬½«À´µÃË¼¿¼Òª²»ÒªÁô×Å
+	 * å¾—åˆ°çš„æ˜¯å¼•ç”¨ï¼Œæ‰€ä»¥å°±æ˜¯æŠŠå›¾çš„ä¸€ä¸ªç§æœ‰å˜é‡ç›´æ¥æš´éœ²ï¼Œç‰¹åˆ«å±é™©ï¼Œæ…ç”¨ï¼Œå°†æ¥å¯èƒ½ä¿®æ”¹ï¼Œæš‚æ—¶æœªç”¨
 	 */
 	vector<Node>& getNodes(){
 		return nodes;
@@ -282,11 +281,33 @@ public:
 	 */
 	uint nextNeighborId(uint id);
 
-
-
-
 	/*************************************Complex Operate***********************************/
 
+	/**
+	 * search one son of the graph for one node
+	 * should provide the node's id
+	 * if the graph is connected graph,then return true
+	 * ä¸ªäººè®¤ä¸ºæä¾›çš„å‚æ•°ä¿ä½æ­£ç¡®åœ¨è¿™é‡Œåº”è¯¥æ˜¯è°ƒç”¨è€…çš„è´£ä»»
+	 */
+	bool breadthOne(uint id);
+
+	/**
+	 * search one son of the graph for one node
+	 * should provide the node
+	 * if the graph is connected graph,then return true
+	 */
+	bool breadthOne(Node n);
+
+	/**
+	 * search the all graph,you can provide the node's id
+	 * also if you don't provide any parameter,the id=0 will be search first
+	 */
+	void BFS(uint id=0);
+
+	/**
+	 * refer to the other one
+	 */
+	void BFS(Node n);
 
 
 

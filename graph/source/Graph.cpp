@@ -1,7 +1,7 @@
 /*
  * Graph.cpp
  *
- *  Created on: 2018Äê1ÔÂ8ÈÕ
+ *  Created on: 2018å¹´1æœˆ8æ—¥
  *      Author: Administrator
  */
 
@@ -14,7 +14,7 @@ Graph::Graph():iterNode(0){
 }
 
 Graph::Graph(const vector<Node>& nodes):iterNode(0){
-	this->nodes = nodes;					//·¢ÉúµÄÊÇÒ»¸ö¸önode²»¶Ï¸³Öµ¹ı³Ì
+	this->nodes = nodes;
 }
 
 Graph::Graph(const Graph& g):iterNode(0){
@@ -41,22 +41,22 @@ bool Graph::existNode(uint id) const{
 
 bool Graph::existEdge(const Node a,const Node b) const{
 	for(unsigned int i=0;i<nodes.size();i++){
-		if(nodes[i]==a||nodes[i]==b){				//¸ù¾İ==µÄÖØÔØ£¬Ö»ÒªidÏàÍ¬µÄNodeÀàĞÍ¾ÍÈÏÎªÊÇÏàµÈµÄ
+		if(nodes[i]==a||nodes[i]==b){
 			vector<Edge> temp = nodes[i].getadjEdges();
 			if(nodes[i]==a){
-				for(unsigned int j=0;j<temp.size();j++){	//È·¶¨Ò»½Úµãºó±éÀú¸Ã½Úµã
+				for(unsigned int j=0;j<temp.size();j++){
 					if(temp[j].getNextNode()==b.getId()) return true;
 				}
-				return false;				//aÖĞÃ»ÓĞÁ¬ÏòbµÄ±ß
+				return false;
 			}else{
 				for(unsigned int j=0;j<temp.size();j++){
 					if(temp[j].getNextNode()==a.getId()) return true;
 				}
-				return false;					//bÖĞÃ»ÓĞÁ¬ÏòaµÄ±ß
+				return false;
 			}
 		}
 	}
-	return false;					//Ã»ÕÒµ½Á½¸ö½Úµã
+	return false;
 }
 
 bool Graph::existEdge(uint a,uint b) const{
@@ -71,30 +71,31 @@ unsigned int Graph::nodePos(uint id) const{
 			return i;
 		}
 	}
-	//²»´æÔÚ¾Í·µ»ØÕâ¸öËùÒÔÔÚexistNode(...)²âÊÔ·µ»ØÊÇtrueÊ±²»»á·µ»ØÒÔÏÂÀàĞÍ
-	return (uint)NONE;		//NONE=-1ËäÈ»²»ÊÇÊÇÎŞ·ûºÅÊı£¬µ«ÊÇ¸ù¾İ±àÂë²»±ä×ª»¯£¬ËûÊÇunsignedÀï×î´óµÄ
+	return (uint)NONE;
 }
 
-//Ö»ÄÜµÃµ½ÈİÆ÷ÀïµÄÒ»¸ö¸±±¾£¬²¢²»ÄÜ¶ÔÕæÊµµÄnode×öĞ´²Ù×÷
+
 Node Graph::getNode(unsigned int id) const{
 	unsigned int i = nodePos(id);
-	if(i==(uint)NONE){							//ÈôÃ»ÓĞÒ»¸öid¾ÍÅ×³öÒì³£²¢ÖÕÖ¹´Ëº¯Êı
-		throw NoMatchId(id);
+	if(i==(uint)NONE){
+		NoMatchId err = NoMatchId(id);
+		err.printErr();
+		throw err;
 	}
 	return nodes[i];
 }
 
-//Ö»ÄÜµÃµ½ÈİÆ÷µÄ¸±±¾
+//Ö»
 vector<Edge> Graph::neighbors(uint id) const {
 	try{
 		return getNode(id).getadjEdges();
 	}catch(NoMatchId& e){
-		throw;						//²¶×½µ½µÄÒì³£ÔÙ´ÎÏòÉÏÅ×³ö
+		throw;
 	}
 }
 
 vector<Edge> Graph::neighbors(Node node) const{
-	if(existNode(node)){							//Ö»Òª´æÔÚÓëÌá¹©µÄnodeµÄidÏàÍ¬½áµã¾ÍÊä³öËùÓĞÁÚ½Ó±ß
+	if(existNode(node)){
 		return getNode(node.getId()).getadjEdges();
 	}else{
 		throw NoMatchId(node.getId());
@@ -103,7 +104,7 @@ vector<Edge> Graph::neighbors(Node node) const{
 
 
 bool Graph::insertVertex(Node node){
-	if(!existNode(node)){					//Í¼ÖĞ²»´æÔÚnode¶¥µãÊ±Ìí¼Ó
+	if(!existNode(node)){
 		this->nodes.push_back(node);
 		return true;
 	}else{
@@ -141,7 +142,7 @@ bool Graph::addEdge(uint id1,uint id2,Cost cost){
 	}else{
 		uint id1pos = nodePos(id1);
 		uint id2pos = nodePos(id2);
-		Edge e1 = Edge(id2,cost);		//ÕâÊÇÌí¼Óµ½id1ËùÔÚnodeµÄÁÚ½Ó±ß
+		Edge e1 = Edge(id2,cost);		//ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½Óµï¿½id1ï¿½ï¿½ï¿½ï¿½nodeï¿½ï¿½ï¿½Ú½Ó±ï¿½
 		Edge e2 = Edge(id1,cost);
 		nodes[id1pos].addEdge(e1);
 		nodes[id2pos].addEdge(e2);
@@ -199,7 +200,7 @@ bool Graph::removeEdge(Node node1,Edge e1){
 Cost Graph::getEdgeCost(uint id1,uint id2){
 	uint id1pos = nodePos(id1);
 	Edge e =nodes[id1pos].getByNextId(id2);
-	if(e==NONE) return NONE;				//ÆäÊµ×öÁËe==Edge(NONE)µÄ±È½Ï
+	if(e==NONE) return NONE;				//ï¿½ï¿½Êµï¿½ï¿½ï¿½ï¿½e==Edge(NONE)ï¿½Ä±È½ï¿½
 	return e.getCost();
 }
 
@@ -213,7 +214,7 @@ Cost Graph::getEdgeCost(Node node1,Edge e){
 	return getEdgeCost(id1,id2);
 }
 
-//¼ÇµÃÒª¸Ä±äÁ½¸ö¶¥µãÖĞµÄÄÚÈİ
+//ï¿½Çµï¿½Òªï¿½Ä±ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½Ğµï¿½ï¿½ï¿½ï¿½ï¿½
 bool Graph::setEdgeCost(uint id1,uint id2,Cost cost){
 	if(existEdge(id1,id2)){
 		uint id1pos = nodePos(id1);
@@ -246,12 +247,11 @@ Node Graph::firstNeighbor(Node node){
 }
 
 uint Graph::nextNeighborId(uint id){
-	return getNode(id).nextNeighbor();				//++iter£¬µÃµ½ÏÂÒ»¸öfirstNeighbor
+	return getNode(id).nextNeighbor();				//++iterï¿½ï¿½ï¿½Ãµï¿½ï¿½ï¿½Ò»ï¿½ï¿½firstNeighbor
 }
 
 uint Graph::nextNeighborId(Node node){
-	return node.nextNeighbor();						//ÓëÇ°ÃæµÄfirstº¯ÊıÒ»ÑùÖ±½ÓÓÃÁËÌá¹©µÄnode
-													//Ö®Ç°Ğ´µÃ´ó¶àÊıº¯Êı¶àÊÇÖ»ÒªÈ¡nodeÖĞµÄidĞÅÏ¢
+	return node.nextNeighbor();						//åœ¨
 }
 
 Node Graph::nextNeighbor(uint id){
@@ -262,7 +262,10 @@ Node Graph::nextNeighbor(Node node){
 	return getNode(nextNeighborId(node));
 }
 
-
+bool Graph::breadthOne(uint id){
+	queue<Node> q;
+	set<uint,less<uint> > s;			//ç”¨äºåˆ¤åˆ«æ˜¯å¦éå†è¿‡è¯¥node
+}
 
 
 
