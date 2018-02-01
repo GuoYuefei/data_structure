@@ -1,7 +1,7 @@
 /*
  * Graph.h
  *
- *  Created on: 2018年1月8日
+ *  Created on: 2018��1��8��
  *      Author: Administrator
  */
 
@@ -12,9 +12,6 @@
 #include "Cost.h"
 #include <vector>
 #include "./exceptions/NoMatchId.h"
-#include <set>
-#include <queue>
-#include <stack>
 
 
 
@@ -91,11 +88,13 @@ public:
 
 	/**
 	 * get the Node reference which is matching the id
+	 * �����node��װ���ˣ��̿��Ա�¶����
 	 */
 	Node getNode(unsigned int id) const;
 
 	/**
-	 * 得到的是引用，所以就是把图的一个私有变量直接暴露，特别危险，慎用，将来可能修改，暂时未用
+	 * ���������ã���graph�����п��ܲ���ȫ��������ͨ���ӿ����
+	 * ����һ��Σ�յĺ�����������˼��Ҫ��Ҫ����
 	 */
 	vector<Node>& getNodes(){
 		return nodes;
@@ -281,33 +280,11 @@ public:
 	 */
 	uint nextNeighborId(uint id);
 
+
+
+
 	/*************************************Complex Operate***********************************/
 
-	/**
-	 * search one son of the graph for one node
-	 * should provide the node's id
-	 * if the graph is connected graph,then return true
-	 * 个人认为提供的参数保住正确在这里应该是调用者的责任
-	 */
-	bool breadthOne(uint id);
-
-	/**
-	 * search one son of the graph for one node
-	 * should provide the node
-	 * if the graph is connected graph,then return true
-	 */
-	bool breadthOne(Node n);
-
-	/**
-	 * search the all graph,you can provide the node's id
-	 * also if you don't provide any parameter,the id=0 will be search first
-	 */
-	void BFS(uint id=0);
-
-	/**
-	 * refer to the other one
-	 */
-	void BFS(Node n);
 
 
 

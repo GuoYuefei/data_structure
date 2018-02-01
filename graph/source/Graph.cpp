@@ -1,7 +1,7 @@
 /*
  * Graph.cpp
  *
- *  Created on: 2018年1月8日
+ *  Created on: 2018��1��8��
  *      Author: Administrator
  */
 
@@ -78,9 +78,7 @@ unsigned int Graph::nodePos(uint id) const{
 Node Graph::getNode(unsigned int id) const{
 	unsigned int i = nodePos(id);
 	if(i==(uint)NONE){
-		NoMatchId err = NoMatchId(id);
-		err.printErr();
-		throw err;
+		throw NoMatchId(id);
 	}
 	return nodes[i];
 }
@@ -90,12 +88,12 @@ vector<Edge> Graph::neighbors(uint id) const {
 	try{
 		return getNode(id).getadjEdges();
 	}catch(NoMatchId& e){
-		throw;
+		throw;						//��׽�����쳣�ٴ������׳�
 	}
 }
 
 vector<Edge> Graph::neighbors(Node node) const{
-	if(existNode(node)){
+	if(existNode(node)){							//ֻҪ�������ṩ��node��id��ͬ������������ڽӱ�
 		return getNode(node.getId()).getadjEdges();
 	}else{
 		throw NoMatchId(node.getId());
@@ -104,7 +102,7 @@ vector<Edge> Graph::neighbors(Node node) const{
 
 
 bool Graph::insertVertex(Node node){
-	if(!existNode(node)){
+	if(!existNode(node)){					//ͼ�в�����node����ʱ���
 		this->nodes.push_back(node);
 		return true;
 	}else{
@@ -251,7 +249,8 @@ uint Graph::nextNeighborId(uint id){
 }
 
 uint Graph::nextNeighborId(Node node){
-	return node.nextNeighbor();						//在
+	return node.nextNeighbor();						//��ǰ���first����һ��ֱ�������ṩ��node
+													//֮ǰд�ô������������ֻҪȡnode�е�id��Ϣ
 }
 
 Node Graph::nextNeighbor(uint id){
@@ -262,10 +261,7 @@ Node Graph::nextNeighbor(Node node){
 	return getNode(nextNeighborId(node));
 }
 
-bool Graph::breadthOne(uint id){
-	queue<Node> q;
-	set<uint,less<uint> > s;			//用于判别是否遍历过该node
-}
+
 
 
 

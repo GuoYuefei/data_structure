@@ -8,7 +8,7 @@
 
 
 Node::~Node(){
-//	delete &adjEdges;
+	delete &adjEdges;
 }
 
 bool Node::addEdge(Edge e){

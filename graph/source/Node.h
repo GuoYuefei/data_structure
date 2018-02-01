@@ -37,7 +37,7 @@ public:
 	Node(const Node& node):id(node.getId()),iterEdge(0){
 		vector<Edge> ve= node.getadjEdges();
 		for(uint i=0;i<ve.size();i++){
-			this->adjEdges.push_back(ve[i]);
+			this->adjEdges[i] = ve[i];
 		}
 	}
 
