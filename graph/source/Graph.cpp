@@ -1,7 +1,7 @@
 /*
  * Graph.cpp
  *
- *  Created on: 2018��1��8��
+ *  Created on: 2018年1月8日
  *      Author: Administrator
  */
 
@@ -78,7 +78,9 @@ unsigned int Graph::nodePos(uint id) const{
 Node Graph::getNode(unsigned int id) const{
 	unsigned int i = nodePos(id);
 	if(i==(uint)NONE){
-		throw NoMatchId(id);
+		NoMatchId err = NoMatchId(id);
+		err.printErr();
+		throw err;
 	}
 	return nodes[i];
 }
@@ -88,12 +90,12 @@ vector<Edge> Graph::neighbors(uint id) const {
 	try{
 		return getNode(id).getadjEdges();
 	}catch(NoMatchId& e){
-		throw;						//��׽�����쳣�ٴ������׳�
+		throw;
 	}
 }
 
 vector<Edge> Graph::neighbors(Node node) const{
-	if(existNode(node)){							//ֻҪ�������ṩ��node��id��ͬ������������ڽӱ�
+	if(existNode(node)){
 		return getNode(node.getId()).getadjEdges();
 	}else{
 		throw NoMatchId(node.getId());
@@ -102,7 +104,7 @@ vector<Edge> Graph::neighbors(Node node) const{
 
 
 bool Graph::insertVertex(Node node){
-	if(!existNode(node)){					//ͼ�в�����node����ʱ���
+	if(!existNode(node)){
 		this->nodes.push_back(node);
 		return true;
 	}else{
@@ -249,8 +251,7 @@ uint Graph::nextNeighborId(uint id){
 }
 
 uint Graph::nextNeighborId(Node node){
-	return node.nextNeighbor();						//��ǰ���first����һ��ֱ�������ṩ��node
-													//֮ǰд�ô������������ֻҪȡnode�е�id��Ϣ
+	return node.nextNeighbor();						//在
 }
 
 Node Graph::nextNeighbor(uint id){
@@ -261,6 +262,60 @@ Node Graph::nextNeighbor(Node node){
 	return getNode(nextNeighborId(node));
 }
 
+/******************************广度优先开始*********************************************/
+bool Graph::breadthOne(uint id,fun f,set_ui& s){
+	queue<Node*> q;					//放入的是指针，这样权限大些
+//	set<uint> s;			//用于判别是否遍历过该node
+	uint temp = id;
+	if(!s.insert(temp).second){
+		return true;				//要遍历的顶点在set中了
+	}
+	try{
+		Node* n = &nodes[nodePos(temp)];
+		q.push(n);
+		while(!q.empty()){
+			n = q.front();
+			q.pop();
+			(*f)(*n);				//将当前遍历的node交给f函数
+			vector<Edge> es = n->getadjEdges();
+			for(uint i=0;i<es.size();i++){
+				temp = es[i].getNextNode();
+				if(s.insert(temp).second){				//如果插入set成功了，说明没有遍历过，那就遍历
+					q.push(&nodes[nodePos(temp)]);
+				}
+			}
+		}
+	}catch (NoMatchId& e) {			//如果有错就打印错误
+		e.printErr();
+		return false;
+	}
+	return true;
+}
+
+bool Graph::breadthOne(Node n,fun f,set_ui& s){
+	return breadthOne(n.getId(),f,s);
+}
+
+bool Graph::BFS(uint id,fun f,set_ui& s){
+	uint temp = id;
+	bool result = breadthOne(temp,f,s);
+	for(uint i = 0;i<nodes.size();i++){
+		if(!result){
+			break;			//发生错误，跳出循环
+		}
+		if(s.insert(nodes[i].getId()).second){
+			temp = nodes[i].getId();
+			s.erase(temp);
+			result = breadthOne(temp,f,s);
+		}
+	}
+	return result;
+}
+
+bool Graph::BFS(Node n,fun f,set_ui& s){
+	return BFS(n.getId(),f,s);
+}
+/************************************广度优先部分结束***************************************************/
 
 
 

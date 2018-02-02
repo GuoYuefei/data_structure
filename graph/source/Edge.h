@@ -17,7 +17,7 @@
 class Edge {
 
 private:
-	uint nextNode;					//��һ������id
+	uint nextNode;
 	Cost cost;
 
 public:
@@ -34,6 +34,15 @@ public:
 	 */
 	bool operator==(const Edge& that) const{
 		return this->nextNode == that.nextNode;
+	}
+
+	Edge& operator=(const Edge& e){
+		//check for self assignment
+		if(this!=&e){
+			this->cost = e.getCost();
+			this->nextNode=e.getNextNode();
+		}
+		return *this;				//return self whatever changed
 	}
 
 

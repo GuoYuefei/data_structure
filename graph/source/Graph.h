@@ -1,7 +1,7 @@
 /*
  * Graph.h
  *
- *  Created on: 2018��1��8��
+ *  Created on: 2018年1月8日
  *      Author: Administrator
  */
 
@@ -12,8 +12,12 @@
 #include "Cost.h"
 #include <vector>
 #include "./exceptions/NoMatchId.h"
+#include <set>
+#include <queue>
+#include <stack>
 
-
+typedef void (*fun)(Node& n);
+typedef set<uint> set_ui;
 
 
 class Graph {
@@ -88,13 +92,11 @@ public:
 
 	/**
 	 * get the Node reference which is matching the id
-	 * �����node��װ���ˣ��̿��Ա�¶����
 	 */
 	Node getNode(unsigned int id) const;
 
 	/**
-	 * ���������ã���graph�����п��ܲ���ȫ��������ͨ���ӿ����
-	 * ����һ��Σ�յĺ�����������˼��Ҫ��Ҫ����
+	 * 得到的是引用，所以就是把图的一个私有变量直接暴露，特别危险，慎用，将来可能修改，暂时未用
 	 */
 	vector<Node>& getNodes(){
 		return nodes;
@@ -280,11 +282,33 @@ public:
 	 */
 	uint nextNeighborId(uint id);
 
-
-
-
 	/*************************************Complex Operate***********************************/
 
+	/**
+	 * search one son of the graph for one node
+	 * should provide the node's id
+	 * if the graph is connected graph,then return true
+	 * 个人认为提供的参数保住正确在这里应该是调用者的责任
+	 * set<uint> 参数，可以设置可能会遍历到的，但是我不想遍历的顶点的id
+	 */
+	bool breadthOne(uint id,fun f,set_ui& s = *new set_ui());
+
+	/**
+	 * search one son of the graph for one node
+	 * should provide the node
+	 * if the graph is connected graph,then return true
+	 */
+	bool breadthOne(Node n,fun f,set_ui& s = *new set_ui());
+
+	/**
+	 * search the all graph,you can provide the start node's id
+	 */
+	bool BFS(uint id,fun f,set_ui& s = *new set_ui());
+
+	/**
+	 * refer to the other one
+	 */
+	bool BFS(Node n,fun f,set_ui& s = *new set_ui());
 
 
 

@@ -1,17 +1,13 @@
 /*
  * Cost.h
  *
- *  Created on: 2018Äê1ÔÂ8ÈÕ
+ *  Created on: 2018å¹´1æœˆ8æ—¥
  *      Author: Administrator
  */
 
 #ifndef COST_H_
 #define COST_H_
 
-
-/**
- * Â·¾¶»¨·Ñ¶¥²ãÀà
- */
 class Cost {
 private:
 	unsigned int cost;
@@ -28,6 +24,14 @@ public:
 	}
 	virtual void setCost(int cost){
 		this->cost = cost;
+	}
+
+	Cost& operator=(const Cost& c){
+		if(this!=&c){
+			unsigned int temp = c.getCost();
+			this->cost = temp;
+		}
+		return *this;
 	}
 };
 
