@@ -28,7 +28,7 @@ protected:
 	vector<Node> nodes;				// vertex collection
 
 public:
-	static int maxId;				//record the max of node's id in this graph
+//	static int maxId;				//record the max of node's id in this graph
 
 	Graph();
 	Graph(const vector<Node>& nodes);
@@ -57,6 +57,8 @@ public:
 	void resetIter(){
 		this->iterNode = 0;
 	}
+
+
 
 
 
@@ -303,12 +305,33 @@ public:
 	/**
 	 * search the all graph,you can provide the start node's id
 	 */
-	bool BFS(uint id,fun f,set_ui& s = *new set_ui());
+	void BFS(uint id,fun f,set_ui& s = *new set_ui());
 
 	/**
 	 * refer to the other one
 	 */
-	bool BFS(Node n,fun f,set_ui& s = *new set_ui());
+	void BFS(Node n,fun f,set_ui& s = *new set_ui());
+
+	/**
+	 * 重置图中所有Node中的Edeg的集合
+	 */
+	void rsEdgeIter();
+
+	/**
+	 * search one son of the graph for one node
+	 * should provide the node's id
+	 * if the graph is connected graph,then return true
+	 * 个人认为提供的参数保住正确在这里应该是调用者的责任
+	 * set<uint> 参数，可以设置可能会遍历到的，但是我不想遍历的顶点的id
+	 */
+	bool depthOne(uint id,fun f,set_ui& s = *new set_ui());
+
+	bool depthOne(Node n,fun f,set_ui& s = *new set_ui());
+
+	void DFS(uint id,fun f,set_ui& s = *new set_ui());
+
+	void DFS(Node n,fun f,set_ui& s = *new set_ui());
+
 
 
 

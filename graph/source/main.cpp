@@ -42,11 +42,23 @@ int main(){
 	}
 */
 
-	cout <<endl<< "这是直接调用成员函数,从id=0结点遍历一个子图：";
+	cout <<endl<< "这是直接调用成员函数,从id=0结点广度优先遍历一个子图：";
 	g.breadthOne(0,f);
-	cout << endl << "直接调用成员函数,从id=0结点遍历一个全图：";
+	cout << endl << "直接调用成员函数,从id=0结点广度优先遍历一个全图：";
 	g.BFS(0,f);
+	cout << endl << "直接调用成员函数，从id=0结点深度优先遍历一个子图：";
+	g.depthOne(0,f);
+	cout << endl << "直接调用成员函数，从id=0结点深度优先遍历一个全图：";
+	g.rsEdgeIter();				//在改变过iter后深度遍历时要每次重置一边
+	g.DFS(0,f);
 
+}
+
+
+void outAllEdge(Node n){
+	for(uint i=n.firstNeighbor();;i=n.nextNeighbor()){
+
+	}
 }
 
 void f(Node& n){
@@ -56,7 +68,7 @@ void f(Node& n){
 
 void getFromFile(){
 	ifstream infile;
-	infile.open("c://Users/Administrator/Desktop/cin.txt",ios::in);
+	infile.open("c://Users/Administrator/Desktop/cin2.txt",ios::in);
 	cout << "输入定点id并加入g(空格隔开，回车停止)：" << endl;
 	do{
 		infile >> id ;
@@ -70,7 +82,6 @@ void getFromFile(){
 		g.addEdge(id1,id2,cost);
 		cout << "已添加"<<id1<<"和"<<id2<<"的边，花费是"<<cost<<endl;
 	}while(infile.get()!=';');
-
 
 }
 

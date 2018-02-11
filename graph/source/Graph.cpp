@@ -7,7 +7,7 @@
 
 #include "Graph.h"
 
-int Graph::maxId = 0;
+//int Graph::maxId = 0;
 
 
 Graph::Graph():iterNode(0){
@@ -268,27 +268,27 @@ bool Graph::breadthOne(uint id,fun f,set_ui& s){
 //	set<uint> s;			//用于判别是否遍历过该node
 	uint temp = id;
 	if(!s.insert(temp).second){
-		return true;				//要遍历的顶点在set中了
+		return false;				//要遍历的顶点在set中了
 	}
-	try{
-		Node* n = &nodes[nodePos(temp)];
-		q.push(n);
-		while(!q.empty()){
-			n = q.front();
-			q.pop();
-			(*f)(*n);				//将当前遍历的node交给f函数
-			vector<Edge> es = n->getadjEdges();
-			for(uint i=0;i<es.size();i++){
-				temp = es[i].getNextNode();
-				if(s.insert(temp).second){				//如果插入set成功了，说明没有遍历过，那就遍历
-					q.push(&nodes[nodePos(temp)]);
-				}
+//	try{
+	Node* n = &nodes[nodePos(temp)];
+	q.push(n);
+	while(!q.empty()){
+		n = q.front();
+		q.pop();
+		(*f)(*n);				//将当前遍历的node交给f函数
+		vector<Edge> es = n->getadjEdges();			//也可以使用封装好的iter遍历
+		for(uint i=0;i<es.size();i++){
+			temp = es[i].getNextNode();
+			if(s.insert(temp).second){				//如果插入set成功了，说明没有遍历过，那就遍历
+				q.push(&nodes[nodePos(temp)]);
 			}
 		}
-	}catch (NoMatchId& e) {			//如果有错就打印错误
-		e.printErr();
-		return false;
 	}
+//	}catch (NoMatchId& e) {			//如果有错就打印错误
+//		e.printErr();
+//		return false;
+//	}
 	return true;
 }
 
@@ -296,35 +296,91 @@ bool Graph::breadthOne(Node n,fun f,set_ui& s){
 	return breadthOne(n.getId(),f,s);
 }
 
-bool Graph::BFS(uint id,fun f,set_ui& s){
+void Graph::BFS(uint id,fun f,set_ui& s){
 	uint temp = id;
-	bool result = breadthOne(temp,f,s);
+//	bool result =
+	breadthOne(temp,f,s);
 	for(uint i = 0;i<nodes.size();i++){
-		if(!result){
-			break;			//发生错误，跳出循环
-		}
+//		if(!result){
+//			break;			//发生错误，跳出循环
+//		}
 		if(s.insert(nodes[i].getId()).second){
 			temp = nodes[i].getId();
 			s.erase(temp);
-			result = breadthOne(temp,f,s);
+			breadthOne(temp,f,s);
 		}
 	}
-	return result;
+//	return result;
 }
 
-bool Graph::BFS(Node n,fun f,set_ui& s){
-	return BFS(n.getId(),f,s);
+void Graph::BFS(Node n,fun f,set_ui& s){
+	BFS(n.getId(),f,s);
 }
-/************************************广度优先部分结束***************************************************/
+/************************************广度优先部分结束********************************************/
 
+/**
+ * 深度遍历之前要重置Node中Edge集合的迭代器
+ */
+void Graph::rsEdgeIter(){
+	for(uint i=0;i<nodes.size();i++){
+		nodes[i].resetIter();
+	}
+}
 
+/************************************深度优先开始***********************************************/
 
+/*
+ * 本来这应该是一个递归算法的，但是考虑到效率可以用栈实现，但是较复杂
+ * 在使用以下4个任意一个函数时需要提前将图中各点的迭代器清0
+ */
+bool Graph::depthOne(uint id,fun f,set_ui& s){
+	uint temp = id;
+	stack<Node*> stk;
+	if(!s.insert(temp).second){			//插入没成功证明s中已经有了，也就是已经遍历过或者不要求遍历的
+		return false;
+	}
+	Node* n = &nodes[nodePos(temp)];
+	(*f)(*n);
+	stk.push(n);
+	while(!stk.empty()){
+		n = stk.top();
+		for(temp=n->firstNeighbor();temp!=(uint)NONE;temp=n->nextNeighbor()){	//若没到底了就退出循环
+			if(!s.insert(temp).second){
+				continue;					//此时temp代表的node已经遍历或无需遍历了
+			}else{
+				n = &nodes[nodePos(temp)];
+				(*f)(*n);					//执行相应函数
+				stk.push(n);
+				temp=n->nextNeighbor();		//得手动下啦
+				break;
+			}
+		}//只有当以上for循环真的因为for中条件退出时，执行以下代码
+		if(temp==(uint)NONE){
+			stk.pop();
+		}
+	}
+	return true;
+}
 
+bool Graph::depthOne(Node n,fun f,set_ui& s){
+	return depthOne(n.getId(),f,s);
+}
 
+void Graph::DFS(uint id,fun f,set_ui& s){
+	uint temp = id;
+	depthOne(temp,f,s);
+	for(uint i = 0;i<nodes.size();i++){
+		if(s.insert(nodes[i].getId()).second){
+			temp = nodes[i].getId();
+			s.erase(temp);
+			depthOne(temp,f,s);
+		}
+	}
+}
 
-
-
-
+void Graph::DFS(Node n,fun f,set_ui& s){
+	DFS(n.getId(),f,s);
+}
 
 
 

@@ -11,7 +11,6 @@
 
 #include "Edge.h"
 #include <vector>
-//#include "Graph.h"
 
 using namespace std;
 
@@ -175,15 +174,24 @@ public:
 	 * get Node'id what current iterEdge point to
 	 * the Node should been found in the graph,its class Graph's responsibility
 	 */
-	virtual int firstNeighbor(){
-		return adjEdges[iterEdge].getNextNode();
+	virtual uint firstNeighbor(){
+		if(iterEdge<adjEdges.size()){
+			return adjEdges[iterEdge].getNextNode();
+		}else{
+			return (uint)NONE;			//已经到头了
+		}
 	}
 
 	/**
 	 * get Node's what next iterEdge point to and the iterEdge will plus 1
+	 * 如果没到底就返回连接的节点的id，否则返回NONE
 	 */
-	virtual int nextNeighbor(){
-		return adjEdges[++iterEdge].getNextNode();
+	virtual uint nextNeighbor(){
+		if(iterEdge+1<adjEdges.size()){
+			return adjEdges[++iterEdge].getNextNode();
+		}else{
+			return (uint)NONE;
+		}
 	}
 
 };
